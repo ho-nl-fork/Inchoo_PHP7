@@ -26,4 +26,23 @@ class Inchoo_PHP7_Helper_Data extends Mage_Core_Helper_Data
 
         return Zend_Json::decode($encodedValue, $objectDecodeType);
     }
+
+    /**
+     * base64_decode() and escape quotes in url.
+     *
+     * Fix: "Call to undefined method Inchoo_PHP7_Helper_Data::urlDecodeAndEscape()" in some environments.
+     * This is a temporary fix.
+     *
+     * @param    string $url
+     *
+     * @return   string
+     */
+    public function urlDecodeAndEscape($url)
+    {
+        $url = $this->urlDecode($url);
+        $quote = array ('\'', '"');
+        $replace = array('%27', '%22');
+        $url = str_replace($quote, $replace, $url);
+        return $url;
+    }
 }
